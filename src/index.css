@@ -1,0 +1,56 @@
+:global(body) {
+    font-family: Alegreya, serif;
+    margin: 40px auto;
+    max-width: 650px;
+    line-height: 1.6;
+    font-size: 18px;
+    color: black;
+    padding: 0 10px;
+}
+
+:global(a) {
+    color: #999;
+    text-decoration: none;
+}
+
+:global(h1) {
+    font-size: 32px;
+    font-weight: normal;
+}
+
+.subheader {
+    margin-top: -15px;
+    font-size: 14px;
+    height: 30px;
+    line-height: 1.2;
+    font-size: 16px;
+    /*margin-left: 20px;*/
+    font-family: "Alegreya Sans";
+    color: #333;
+    font-style: italic;
+}
+
+.topbar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    /* background-color: #D8003E; */
+    background-color: rgb(83, 199, 242);
+    height: 3px;
+}
+
+.loginWidget {
+    font-family: "Alegreya Sans";
+    text-align: center;
+    width: 100%;
+}
+
+.buttonContext {
+    line-height: 26px;
+    text-align: center;
+    vertical-align: bottom;
+    border-width: 1px 0;
+    padding: 8px 8px 6px;
+    display: inline-block;
+}

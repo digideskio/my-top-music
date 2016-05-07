@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": false,
+        "removeComments": false,
+        "experimentalDecorators": true,
+        "sourceMap": true,
+        "module": "commonjs",
+        "jsx": "react",
+        "outDir": "dist",
+        "target": "es5",
+        "allowJs": true
+    },
+    "files": [
+        "./typings/browser.d.ts",
+        "./src/index.tsx"
+    ]
+}

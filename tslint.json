@@ -1,0 +1,84 @@
+{
+    "rules": {
+        "member-ordering": [true, "public-before-private", "static-before-instance", "variables-before-functions"],
+        "no-var-requires": true,
+        "typedef": [true, "parameter", "call-signature", "property-declaration", "member-variable-declaration"],
+        "typedef-whitespace": [
+            true,
+            {
+                "call-signature": "nospace",
+                "index-signature": "nospace",
+                "parameter": "nospace",
+                "property-declaration": "nospace",
+                "variable-declaration": "nospace"
+            },
+            {
+                "call-signature": "onespace",
+                "index-signature": "onespace",
+                "parameter": "onespace",
+                "property-declaration": "onespace",
+                "variable-declaration": "onespace"
+            }
+        ],
+
+        "ban": [true, ["_", "isNull"], ["_", "isDefined"] ],
+        "curly": true,
+        "forin": true,
+        "label-position": true,
+        "label-undefined": true,
+        "no-arg": true,
+        "no-bitwise": false,
+        "no-conditional-assignment": true,
+        "no-debugger": true,
+        "no-duplicate-key": true,
+        "no-duplicate-variable": false,
+        "no-empty": true,
+        "no-eval": true,
+        "no-null-keyword": false,
+        "no-shadowed-variable": true,
+        "no-switch-case-fall-through": true,
+        "no-unreachable": true,
+        "no-unused-expression": true,
+        "no-unused-variable": [
+            true, "react"
+        ],
+        "no-use-before-declare": false,
+        "no-var-keyword": true,
+        "radix": true,
+        "switch-default": true,
+        "triple-equals": [true, "allow-null-check"],
+        
+        "eofline": true,
+        "indent": [4, "spaces"],
+        "max-line-length": [true, 101],
+        "no-require-imports": true,
+        "no-trailing-whitespace": true,
+        "object-literal-sort-keys": false,
+        "trailing-comma": [true, {
+            "singleline": "never",
+            "multiline": "always"
+        }],
+        
+        "class-name": true,
+        "comment-format": [true, "check-space"],
+        "interface-name": true,
+        "jsdoc-format": true,
+        "no-constructor-vars": true,
+        "no-consecutive-blank-lines": true,
+        "one-line": [true, "check-catch", "check-else", "check-open-brace", "check-whitespace", "check-finally"],
+        "no-construct": true,
+        "no-string-literal": false,
+        "quotemark": [true, "double"],
+        "semicolon": [true, "always"],
+        "variable-name": false,
+        "whitespace": [true,
+            "check-branch",
+            "check-decl",
+            "check-operator",
+            "check-module",
+            "check-seperator",
+            "check-type",
+            "check-typecast"
+        ]
+    }
+}
