@@ -31,6 +31,7 @@ interface IState {
     artists?: ISpotifyUserArtists;
 
     topTracks?: ISpotifyTrack[];
+    shuffledTopTracks?: ISpotifyTrack[];
     longTermTopTracks?: ISpotifyTrack[];
     topArtists?: ISpotifyArtist[];
     longTermTopArtists?: ISpotifyArtist[];
@@ -40,13 +41,21 @@ interface IState {
 }
 
 const CLIENT_ID = "f4b4c29bf3c84dee8d194e94001a9b22";
-const SCOPES = encodeURIComponent("playlist-read-private playlist-read-collaborative " +
-    "playlist-modify-public playlist-modify-private user-top-read user-library-read " +
-    "user-follow-read");
+const SCOPES = encodeURIComponent("user-top-read user-library-read user-follow-read");
 const HERE = encodeURIComponent(window.location.origin + window.location.pathname);
 
 const LOGIN_URL = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}` +
                     `&scope=${SCOPES}&redirect_uri=${HERE}&response_type=token`;
+
+function pluralize(count: number, one: string, many: string): string {
+    if (count === 0) {
+        return `no ${many}`;
+    } else if (count === 1) {
+        return `1 ${one}`;
+    } else {
+        return `${count} ${many}`;
+    }
+}
 
 export class Body extends React.Component<IProps, IState> {
     state: IState = {
@@ -173,7 +182,8 @@ export class Body extends React.Component<IProps, IState> {
                     }, this._catchAll);
                 getTopTracks(this._getHeaders())
                     .then(topTracks => {
-                        this.setState({topTracks});
+                        const shuffledTopTracks = shuffle(topTracks);
+                        this.setState({topTracks, shuffledTopTracks});
                         _loadAudioFeatures();
                     }, this._catchAll);
             };
@@ -244,9 +254,12 @@ export class Body extends React.Component<IProps, IState> {
             <span style={{flex: 1, marginLeft: -20, marginTop: -3,
                     fontFamily: "Alegreya Sans", fontSize: 16}}>
                 <ul style={{marginRight: -10, marginTop: 10}}>
-                    {this.state.songs && <li>{this._someSongNames(3)}</li>}
-                    {this.state.albums && <li>{this._someAlbumNames(3)}</li>}
-                    {this.state.artists && <li>{this._someArtistNames(3)}</li>}
+                    {this.state.songs && this.state.songs.items &&
+                        <li>{this._someSongNames(3)}</li>}
+                    {this.state.albums && this.state.albums.items &&
+                        <li>{this._someAlbumNames(3)}</li>}
+                    {this.state.artists && this.state.artists.items &&
+                        <li>{this._someArtistNames(3)}</li>}
                 </ul>
             </span>
             </p>
@@ -261,7 +274,8 @@ export class Body extends React.Component<IProps, IState> {
             {songs}<strong>
                 <a href="javascript: void(0)" onClick={this._shuffleSongs}
                     style={{color: "rgb(83, 199, 242)"}}>and{" "}
-                    {this.state.songs.total - max} other songs</a>
+                    {pluralize(Math.max(this.state.songs.total - max, 0),
+                               "other song", "other songs")}</a>
             </strong>.
         </span>;
     }
@@ -279,7 +293,8 @@ export class Body extends React.Component<IProps, IState> {
             {albums}<strong>
                 <a href="javascript: void(0)" onClick={this._shuffleAlbums}
                     style={{color: "rgb(83, 199, 242)"}}>and{" "}
-                    {this.state.albums.total - max} other albums</a>
+                    {pluralize(Math.max(this.state.albums.total - max, 0),
+                               "other album", "other albums")}</a>
             </strong>.
         </span>;
     }
@@ -296,7 +311,8 @@ export class Body extends React.Component<IProps, IState> {
             {albums}<strong>
                 <a href="javascript: void(0)" onClick={this._shuffleArtists}
                     style={{color: "rgb(83, 199, 242)"}}>and{" "}
-                    {this.state.artists.total - max} other artists</a>
+                    {pluralize(Math.max(this.state.artists.total - max, 0),
+                               "other artist", "other artists")}</a>
             </strong>.
         </span>;
     }
@@ -331,7 +347,7 @@ export class Body extends React.Component<IProps, IState> {
                 {header}
             </h2>
             <p style={{display: "flex", flexWrap: "wrap", flexDirection: "column",
-                    height: 835 * 4 * artists.length / 50}}>
+                    height: 845 * 4 * artists.length / 50}}>
                 {imgObjs.map(img =>
                     <span style={{maxHeight: 200, width: 200,
                             overflow: "hidden"}}>
@@ -347,7 +363,7 @@ export class Body extends React.Component<IProps, IState> {
     }
 
     private _renderTopTracks(): React.ReactElement<any> {
-        const shuffled = shuffle(this.state.topTracks);
+        const shuffled = this.state.shuffledTopTracks;
         const imgObjs = chunk(shuffled, 8)
             .map(chunk => chunk[0])
             .concat(shuffled[shuffled.length - 1])
